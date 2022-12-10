@@ -1,0 +1,63 @@
+name: Build Workflow
+
+on:
+  push:
+    branches: '**'
+  pull_request:
+
+jobs:
+  build:
+    name: Build (C++${{ matrix.cpp-standard }}, ${{ matrix.config }})
+    runs-on: windows-latest
+
+    strategy:
+      matrix:
+        cpp-standard: [20, 23]
+        config: [Debug, Release, MinSizeRel, RelWithDebInfo]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create environment variables
+        run: |
+          $commitSha = (git rev-parse --short $env:GITHUB_SHA)
+          echo "RED3LIB_COMMIT_SHA=${commitSha}" | Out-File -FilePath $env:GITHUB_ENV -Encoding UTF8 -Append
+
+          $config = "${{ matrix.config }}".ToLower()
+          echo "RED3LIB_PRETTY_CONFIG=${config}" | Out-File -FilePath $env:GITHUB_ENV -Encoding UTF8 -Append
+
+      - name: Create build directory
+        run: mkdir build
+
+      - name: Configure
+        working-directory: build
+        run: |
+          cmake `
+            -DCMAKE_CXX_STANDARD=${{ matrix.cpp-standard }} `
+            -DRED3LIB_INSTALL=ON `
+            -DRED3LIB_USE_PCH=OFF `
+            -DRED3LIB_EXTRA_WARNINGS=ON `
+            -DRED3LIB_TREAT_WARNINGS_AS_ERRORS=ON `
+            ${{ github.workspace }}
+
+      - name: Build
+        working-directory: build
+        run: |
+          cmake `
+            --build . `
+            --config ${{ matrix.config }}
+
+      - name: Install
+        working-directory: build
+        run: |
+          cmake `
+            --install . `
+            --prefix ${{ github.workspace }}/build/install `
+            --config ${{ matrix.config }}
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: red3lib_cpp${{ matrix.cpp-standard }}_${{ env.RED3LIB_PRETTY_CONFIG }}_${{ env.RED3LIB_COMMIT_SHA }}
+          path: build/install

@@ -1,0 +1,6 @@
+Name: @PROJECT_NAME@
+Description: A library to create native mods for REDengine 3 (i.e. The Witcher 3: Wild Hunt) using C++.
+URL: https://github.com/WopsS/@PROJECT_NAME@
+Version: @PROJECT_VERSION@
+Cflags: -I@RED3LIB_PKG_CONFIG_INCLUDE_DIR@
+Libs: -L@RED3LIB_PKG_CONFIG_LIB_DIR@ -l@PROJECT_NAME@
