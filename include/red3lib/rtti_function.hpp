@@ -36,6 +36,7 @@ struct rtti_function : rtti_object
 
     // TODO: Maybe this should be a template.
     void execute_native(void* context, stack_frame& frame, void* out);
+    void execute_scripted(void* context, std::int8_t* params_stack, void* out);
 
     rtti_class* owner;                // 08
     red3lib::name name;               // 10

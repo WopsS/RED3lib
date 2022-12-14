@@ -6,8 +6,8 @@
 #include <red3lib/detail/relocation.hpp>
 #include <red3lib/rtti_class.hpp>
 #include <red3lib/rtti_function.hpp>
-#include <red3lib/stack_frame.hpp>
 #include <red3lib/scriptable.hpp>
+#include <red3lib/stack_frame.hpp>
 
 #define RED3LIB_C_EXPORT extern "C" __declspec(dllexport)
 #define RED3LIB_CALL __fastcall
@@ -57,7 +57,7 @@ RED3LIB_C_EXPORT void RED3LIB_CALL Update()
         //    func->execute_native(game_context.get(), frame, &engineTime);
         //    std::cout << "'GetEngineTimeAsSeconds' called, returned: " << engineTime << std::endl;
         //}
-  
+
         {
             auto func = game_cls->find_function(L"GetTimeScale");
             float timeScale;
@@ -85,6 +85,14 @@ RED3LIB_C_EXPORT void RED3LIB_CALL Update()
 
             func->execute_native(game_context.get(), frame, &timeScale);
             std::cout << "'GetTimeScale' called, returned: " << timeScale << std::endl;
+        }
+
+        {
+            auto func = game_cls->find_function(L"IsUberMovementEnabled");
+            bool isUberMovement;
+            func->execute_scripted(game_context.get(), nullptr, &isUberMovement);
+
+            std::cout << "'IsUberMovementEnabled' called, returned: " << isUberMovement << std::endl;
         }
 
         int a = 10;
