@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <string_view>
 
-#include <red3lib/detail/Common.hpp>
 #include <red3lib/CNameHash.hpp>
+#include <red3lib/detail/Common.hpp>
 
 namespace red3lib
 {

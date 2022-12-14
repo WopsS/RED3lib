@@ -3,8 +3,8 @@
 
 #include <Windows.h>
 
-#include <red3lib/detail/relocation.hpp>
 #include <red3lib/RED3Lib.hpp>
+#include <red3lib/detail/relocation.hpp>
 
 #define RED3LIB_C_EXPORT extern "C" __declspec(dllexport)
 #define RED3LIB_CALL __fastcall

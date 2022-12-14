@@ -118,7 +118,7 @@ inline R CFunction::execute_native(IScriptable* context, Args&&... args)
     writer.end_params();
 
     detail::RelocFunc<bool, CFunction*, IScriptable*, CStackFrame&, R*> func(
-        detail::addresses::rtti_function::execute_native);
+        detail::addresses::CFunction::execute_native);
 
     if constexpr (std::is_same_v<R, void>)
     {
@@ -144,7 +144,7 @@ inline R CFunction::execute_scripted(IScriptable* context, Args&&... args)
     writer.write_end();
 
     detail::RelocFunc<bool, CFunction*, IScriptable*, std::uint8_t*, R*> func(
-        detail::addresses::rtti_function::execute_scripted);
+        detail::addresses::CFunction::execute_scripted);
 
     if constexpr (std::is_same_v<R, void>)
     {

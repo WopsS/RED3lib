@@ -1,7 +1,7 @@
 #pragma once
 
-#include <red3lib/detail/Asserts.hpp>
 #include <red3lib/IRTTIBaseObject.hpp>
+#include <red3lib/detail/Asserts.hpp>
 
 namespace red3lib
 {
