@@ -63,11 +63,40 @@ endif()
 set(
   RED3LIB_HEADER_FILES
     include/red3lib/red3lib.hpp
+
+    include/red3lib/name.hpp
+    include/red3lib/name_pool.hpp
+
+    include/red3lib/rtti_class.hpp
+    include/red3lib/rtti_class_builder.hpp
+    include/red3lib/rtti_function.hpp
+    include/red3lib/rtti_object.hpp
+    include/red3lib/rtti_property.hpp
+    include/red3lib/rtti_system.hpp
+    include/red3lib/rtti_type.hpp
+
+    include/red3lib/stack_frame.hpp
+
+    include/red3lib/detail/addresses.hpp
+    include/red3lib/detail/asserts.hpp
+    include/red3lib/detail/common.hpp
+    include/red3lib/detail/relocation.hpp
+
+    include/red3lib/containers/dyn_array.hpp
+    include/red3lib/containers/hash_map.hpp
 )
 
 set(
   RED3LIB_SRC_FILES
     src/red3lib.cpp
+
+    src/name.cpp
+    src/name_pool.cpp
+
+    src/rtti_class.cpp
+    src/rtti_function.cpp
+
+    src/detail/relocation.cpp
 )
 
 get_property(RED3LIB_USE_FOLDERS GLOBAL PROPERTY USE_FOLDERS)
@@ -117,6 +146,14 @@ if(RED3LIB_USE_PCH)
     )
 
     target_precompile_headers(RED3lib PRIVATE "${RED3LIB_PCH_FILE}")
+endif()
+
+# -----------------------------------------------------------------------------
+# Examples
+# -----------------------------------------------------------------------------
+option(RED3LIB_BUILD_EXAMPLES "Build the examples." OFF)
+if(RED3LIB_BUILD_EXAMPLES)
+  add_subdirectory(examples)
 endif()
 
 # -----------------------------------------------------------------------------

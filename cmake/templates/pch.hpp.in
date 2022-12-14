@@ -1,3 +1,9 @@
 #pragma once
 
+#include <compare>
+#include <concepts>
+#include <cstddef>
 #include <cstdint>
+#include <string_view>
+
+#include <Windows.h>
