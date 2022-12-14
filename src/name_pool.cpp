@@ -11,9 +11,9 @@ std::uint32_t red3lib::name_pool::add(const wchar_t* text)
     return func(ptr, text);
 }
 
-std::wstring_view red3lib::name_pool::to_wide_string(const name& which)
+std::wstring_view red3lib::name_pool::to_wide_string(const name_hash& which)
 {
-    detail::reloc_func<wchar_t*, const name&> func(detail::addresses::name_pool::find_wide);
+    detail::reloc_func<wchar_t*, const name_hash&> func(detail::addresses::name_pool::find_wide);
     return func(which);
 }
 

@@ -1,18 +1,14 @@
 #include <red3lib/rtti_function.hpp>
 
-#include <red3lib/detail/addresses.hpp>
-#include <red3lib/detail/relocation.hpp>
-
-void red3lib::rtti_function::execute_native(void* context, stack_frame& frame, void* out)
+std::size_t red3lib::rtti_function::calculate_locals_stack_size() const
 {
-    detail::reloc_func<bool, rtti_function*, void*, stack_frame&, void*> func(
-        detail::addresses::rtti_function::execute_native);
-    func(this, context, frame, out);
-}
+    static constexpr std::uint32_t min_stack_size = 0x10;
 
-void red3lib::rtti_function::execute_scripted(void* context, std::int8_t* params_stack, void* out)
-{
-    detail::reloc_func<bool, rtti_function*, void*, std::int8_t*, void*> func(
-        detail::addresses::rtti_function::execute_scripted);
-    func(this, context, params_stack, out);
+    auto result = stack_size + min_stack_size;
+    if (result < min_stack_size)
+    {
+        result = min_stack_size;
+    }
+
+    return result & ~(min_stack_size - 1);
 }

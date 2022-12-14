@@ -64,10 +64,11 @@ set(
   RED3LIB_HEADER_FILES
     include/red3lib/red3lib.hpp
 
-    include/red3lib/name.hpp
+    include/red3lib/name_hash.hpp
     include/red3lib/name_pool.hpp
 
     include/red3lib/rtti_class.hpp
+    include/red3lib/rtti_typed_class.hpp
     include/red3lib/rtti_class_builder.hpp
     include/red3lib/rtti_function.hpp
     include/red3lib/rtti_object.hpp
@@ -79,6 +80,9 @@ set(
     include/red3lib/scriptable.hpp
 
     include/red3lib/stack_frame.hpp
+    include/red3lib/stack_frame_writer.hpp
+    include/red3lib/stack_frame_code_writer.hpp
+    include/red3lib/stack_frame_param_writer.hpp
 
     include/red3lib/detail/addresses.hpp
     include/red3lib/detail/asserts.hpp
@@ -93,13 +97,16 @@ set(
   RED3LIB_SRC_FILES
     src/red3lib.cpp
 
-    src/name.cpp
+    src/name_hash.cpp
     src/name_pool.cpp
 
     src/rtti_class.cpp
     src/rtti_function.cpp
 
     src/stack_frame.cpp
+    src/stack_frame_writer.cpp
+    src/stack_frame_code_writer.cpp
+    src/stack_frame_param_writer.cpp
 
     src/detail/relocation.cpp
 )

@@ -1,6 +1,11 @@
 #pragma once
 
 #include <Windows.h>
+#include <cassert>
+
+#ifndef RED3LIB_ASSERT
+#define RED3LIB_ASSERT(expression) assert(expression)
+#endif
 
 #ifndef RED3LIB_ASSERT_SIZE
 #define RED3LIB_ASSERT_SIZE(obj, size)                                                                                 \

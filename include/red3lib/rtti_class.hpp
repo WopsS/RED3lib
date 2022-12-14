@@ -4,7 +4,7 @@
 
 #include <red3lib/containers/dyn_array.hpp>
 #include <red3lib/detail/asserts.hpp>
-#include <red3lib/name.hpp>
+#include <red3lib/name_hash.hpp>
 #include <red3lib/rtti_type.hpp>
 
 namespace red3lib
@@ -15,25 +15,26 @@ struct rtti_property;
 // CRTTI: CClass
 struct rtti_class : rtti_type
 {
-    rtti_function* find_function(red3lib::name func_name) const;
+    rtti_function* find_function(red3lib::name_hash func_name) const;
 
     std::int32_t unk8;                    // 08
     rtti_class* base;                     // 10
     std::int64_t unk18;                   // 18
     std::int64_t unk20;                   // 20
     std::int32_t unk28;                   // 28
-    red3lib::name name;                   // 2C
+    red3lib::name_hash name;              // 2C
     dyn_array<rtti_property*> properties; // 30
     std::int32_t unk3C;                   // 3C
     std::int32_t unk40;                   // 40
     std::int32_t unk44;                   // 44
     dyn_array<rtti_function*> functions;  // 48
+    std::int32_t unk54;                   // 54
     std::int32_t unk58;                   // 58
     std::int32_t unk5C;                   // 5C
-    std::int32_t unk60;                   // 60
-    std::int32_t scriptedSize;            // 64
+    std::int32_t size;                    // 60
+    std::int32_t scripted_size;           // 64
     std::int32_t flags;                   // 68
-    std::int32_t unk6C;                   // 6C
+    std::int32_t alignment;               // 6C
     std::int64_t unk70;                   // 70
     std::int64_t unk78;                   // 78
     std::int64_t unk80;                   // 80
@@ -67,4 +68,8 @@ RED3LIB_ASSERT_OFFSET(rtti_class, base, 0x10);
 RED3LIB_ASSERT_OFFSET(rtti_class, name, 0x2C);
 RED3LIB_ASSERT_OFFSET(rtti_class, properties, 0x30);
 RED3LIB_ASSERT_OFFSET(rtti_class, functions, 0x48);
+RED3LIB_ASSERT_OFFSET(rtti_class, size, 0x60);
+RED3LIB_ASSERT_OFFSET(rtti_class, scripted_size, 0x64);
+RED3LIB_ASSERT_OFFSET(rtti_class, flags, 0x68);
+RED3LIB_ASSERT_OFFSET(rtti_class, alignment, 0x6C);
 } // namespace red3lib
