@@ -1,5 +1,7 @@
 #pragma once
 
+#include <Windows.h>
+
 #ifndef RED3LIB_ASSERT_SIZE
 #define RED3LIB_ASSERT_SIZE(obj, size)                                                                                 \
     static_assert(sizeof(obj) == size, "The size of '" #obj "' does not match the expected size of " #size " bytes")

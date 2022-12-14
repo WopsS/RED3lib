@@ -75,6 +75,9 @@ set(
     include/red3lib/rtti_system.hpp
     include/red3lib/rtti_type.hpp
 
+    include/red3lib/referencable.hpp
+    include/red3lib/scriptable.hpp
+
     include/red3lib/stack_frame.hpp
 
     include/red3lib/detail/addresses.hpp
@@ -95,6 +98,8 @@ set(
 
     src/rtti_class.cpp
     src/rtti_function.cpp
+
+    src/stack_frame.cpp
 
     src/detail/relocation.cpp
 )
