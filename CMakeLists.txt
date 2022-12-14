@@ -62,53 +62,53 @@ endif()
 # -----------------------------------------------------------------------------
 set(
   RED3LIB_HEADER_FILES
-    include/red3lib/red3lib.hpp
+    include/red3lib/RED3lib.hpp
 
-    include/red3lib/name_hash.hpp
-    include/red3lib/name_pool.hpp
+    include/red3lib/CNameHash.hpp
+    include/red3lib/CNamePool.hpp
 
-    include/red3lib/rtti_class.hpp
-    include/red3lib/rtti_typed_class.hpp
-    include/red3lib/rtti_class_builder.hpp
-    include/red3lib/rtti_function.hpp
-    include/red3lib/rtti_object.hpp
-    include/red3lib/rtti_property.hpp
-    include/red3lib/rtti_system.hpp
-    include/red3lib/rtti_type.hpp
+    include/red3lib/CClass.hpp
+    include/red3lib/TTypedClass.hpp
+    include/red3lib/IClassBuilder.hpp
+    include/red3lib/CFunction.hpp
+    include/red3lib/IRTTIBaseObject.hpp
+    include/red3lib/CProperty.hpp
+    include/red3lib/CRTTISystem.hpp
+    include/red3lib/IRTTIType.hpp
 
-    include/red3lib/referencable.hpp
-    include/red3lib/scriptable.hpp
+    include/red3lib/IReferencable.hpp
+    include/red3lib/IScriptable.hpp
 
-    include/red3lib/stack_frame.hpp
-    include/red3lib/stack_frame_writer.hpp
-    include/red3lib/stack_frame_code_writer.hpp
-    include/red3lib/stack_frame_param_writer.hpp
+    include/red3lib/CStackFrame.hpp
+    include/red3lib/CStackFrameWriter.hpp
+    include/red3lib/CStackFrameCodeWriter.hpp
+    include/red3lib/CStackFrameParamWriter.hpp
 
-    include/red3lib/detail/addresses.hpp
-    include/red3lib/detail/asserts.hpp
-    include/red3lib/detail/common.hpp
-    include/red3lib/detail/relocation.hpp
+    include/red3lib/detail/Addresses.hpp
+    include/red3lib/detail/Asserts.hpp
+    include/red3lib/detail/Common.hpp
+    include/red3lib/detail/Relocation.hpp
 
-    include/red3lib/containers/dyn_array.hpp
-    include/red3lib/containers/hash_map.hpp
+    include/red3lib/containers/TDynArray.hpp
+    include/red3lib/containers/THashMap.hpp
 )
 
 set(
   RED3LIB_SRC_FILES
-    src/red3lib.cpp
+    src/RED3lib.cpp
 
-    src/name_hash.cpp
-    src/name_pool.cpp
+    src/CNameHash.cpp
+    src/CNamePool.cpp
 
-    src/rtti_class.cpp
-    src/rtti_function.cpp
+    src/CClass.cpp
+    src/CFunction.cpp
 
-    src/stack_frame.cpp
-    src/stack_frame_writer.cpp
-    src/stack_frame_code_writer.cpp
-    src/stack_frame_param_writer.cpp
+    src/CStackFrame.cpp
+    src/CStackFrameWriter.cpp
+    src/CStackFrameCodeWriter.cpp
+    src/CStackFrameParamWriter.cpp
 
-    src/detail/relocation.cpp
+    src/detail/Relocation.cpp
 )
 
 get_property(RED3LIB_USE_FOLDERS GLOBAL PROPERTY USE_FOLDERS)

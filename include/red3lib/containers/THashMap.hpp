@@ -2,12 +2,12 @@
 
 #include <cstdint>
 
-#include <red3lib/detail/asserts.hpp>
+#include <red3lib/detail/Asserts.hpp>
 
 namespace red3lib
 {
 template<typename Key, typename T>
-struct [[nodiscard]] hash_map
+struct [[nodiscard]] THashMap
 {
     std::int32_t capacity; // 00
     std::int32_t size;     // 04
@@ -17,5 +17,5 @@ struct [[nodiscard]] hash_map
     std::int64_t buckets;  // 20
     std::int8_t unk28;     // 28
 };
-RED3LIB_ASSERT_SIZE(RED3LIB_ASSERT_ESCAPE(hash_map<std::int32_t, void>), 0x30);
+RED3LIB_ASSERT_SIZE(RED3LIB_ASSERT_ESCAPE(THashMap<std::int32_t, void>), 0x30);
 } // namespace red3lib

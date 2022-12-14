@@ -1,7 +1,7 @@
-#include <red3lib/rtti_class.hpp>
-#include <red3lib/rtti_function.hpp>
+#include <red3lib/CClass.hpp>
+#include <red3lib/CFunction.hpp>
 
-red3lib::rtti_function* red3lib::rtti_class::find_function(red3lib::name_hash func_name) const
+red3lib::CFunction* red3lib::CClass::find_function(red3lib::CNameHash func_name) const
 {
     // TODO: Improve this after some more RE is done.
     for (uint32_t i = 0; i < functions.size; i++)

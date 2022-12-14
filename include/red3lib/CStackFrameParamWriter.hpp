@@ -1,14 +1,14 @@
 #pragma once
 
-#include <red3lib/stack_frame.hpp>
+#include <cstdint>
 
 namespace red3lib
 {
-class [[nodiscard]] stack_frame_param_writer
+class [[nodiscard]] CStackFrameParamWriter
 {
 public:
-    stack_frame_param_writer(std::uint8_t* ptr) noexcept;
-    ~stack_frame_param_writer() noexcept = default;
+    CStackFrameParamWriter(std::uint8_t* ptr) noexcept;
+    ~CStackFrameParamWriter() noexcept = default;
 
     template<typename T>
     void write(T value);
@@ -19,7 +19,7 @@ private:
 };
 
 template<typename T>
-inline void stack_frame_param_writer::write(T value)
+inline void CStackFrameParamWriter::write(T value)
 {
     *reinterpret_cast<T*>(m_cursor) = value;
     m_cursor += sizeof(T);

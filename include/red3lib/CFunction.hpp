@@ -5,23 +5,22 @@
 #include <memory>
 #include <type_traits>
 
-#include <red3lib/containers/dyn_array.hpp>
-#include <red3lib/detail/addresses.hpp>
-#include <red3lib/detail/asserts.hpp>
-#include <red3lib/detail/relocation.hpp>
-#include <red3lib/name_hash.hpp>
-#include <red3lib/rtti_object.hpp>
-#include <red3lib/stack_frame.hpp>
-#include <red3lib/stack_frame_writer.hpp>
+#include <red3lib/CNameHash.hpp>
+#include <red3lib/CStackFrame.hpp>
+#include <red3lib/CStackFrameWriter.hpp>
+#include <red3lib/IRTTIBaseObject.hpp>
+#include <red3lib/containers/TDynArray.hpp>
+#include <red3lib/detail/Addresses.hpp>
+#include <red3lib/detail/Asserts.hpp>
+#include <red3lib/detail/Relocation.hpp>
 
 namespace red3lib
 {
-struct rtti_class;
-struct rtti_property;
-struct scriptable;
+struct CClass;
+struct CProperty;
+struct IScriptable;
 
-// CRTTI: CFunction
-struct rtti_function : rtti_object
+struct CFunction : IRTTIBaseObject
 {
     struct unk
     {
@@ -42,16 +41,14 @@ struct rtti_function : rtti_object
     };
 
     template<typename R = void, typename... Args>
-    R execute(scriptable* context, Args&&... args);
+    R execute(IScriptable* context, Args&&... args);
 
-    // void execute_scripted(void* context, std::int8_t* params_stack, void* out);
-
-    rtti_class* owner;                // 08
-    red3lib::name_hash name;          // 10
+    CClass* owner;                    // 08
+    red3lib::CNameHash name;          // 10
     std::int32_t flags;               // 14
     std::int64_t return_type;         // 18
-    dyn_array<rtti_property*> params; // 20
-    dyn_array<rtti_property*> locals; // 2C
+    TDynArray<CProperty*> params;     // 20
+    TDynArray<CProperty*> locals;     // 2C
     std::int64_t unk38;               // 38
     std::int32_t unk40;               // 40
     std::int32_t unk44;               // 44
@@ -65,24 +62,24 @@ struct rtti_function : rtti_object
 
 private:
     template<typename R, typename... Args>
-    R execute_native(scriptable* context, Args&&... args);
+    R execute_native(IScriptable* context, Args&&... args);
 
     template<typename R, typename... Args>
-    R execute_scripted(scriptable* context, Args&&... args);
+    R execute_scripted(IScriptable* context, Args&&... args);
 
     std::size_t calculate_locals_stack_size() const;
 };
-RED3LIB_ASSERT_SIZE(rtti_function, 0xC0);
-RED3LIB_ASSERT_OFFSET(rtti_function, owner, 0x8);
-RED3LIB_ASSERT_OFFSET(rtti_function, name, 0x10);
-RED3LIB_ASSERT_OFFSET(rtti_function, flags, 0x14);
-RED3LIB_ASSERT_OFFSET(rtti_function, return_type, 0x18);
-RED3LIB_ASSERT_OFFSET(rtti_function, params, 0x20);
-RED3LIB_ASSERT_OFFSET(rtti_function, locals, 0x2C);
-RED3LIB_ASSERT_OFFSET(rtti_function, registration_offset, 0xA8);
+RED3LIB_ASSERT_SIZE(CFunction, 0xC0);
+RED3LIB_ASSERT_OFFSET(CFunction, owner, 0x8);
+RED3LIB_ASSERT_OFFSET(CFunction, name, 0x10);
+RED3LIB_ASSERT_OFFSET(CFunction, flags, 0x14);
+RED3LIB_ASSERT_OFFSET(CFunction, return_type, 0x18);
+RED3LIB_ASSERT_OFFSET(CFunction, params, 0x20);
+RED3LIB_ASSERT_OFFSET(CFunction, locals, 0x2C);
+RED3LIB_ASSERT_OFFSET(CFunction, registration_offset, 0xA8);
 
 template<typename R, typename... Args>
-inline R rtti_function::execute(scriptable* context, Args&&... args)
+inline R CFunction::execute(IScriptable* context, Args&&... args)
 {
     // Maybe this one should be removed and add something similar to https://doc.rust-lang.org/std/result/.
     RED3LIB_ASSERT(params.size == sizeof...(args));
@@ -99,7 +96,7 @@ inline R rtti_function::execute(scriptable* context, Args&&... args)
 }
 
 template<typename R, typename... Args>
-inline R rtti_function::execute_native(scriptable* context, Args&&... args)
+inline R CFunction::execute_native(IScriptable* context, Args&&... args)
 {
     constexpr auto args_count = sizeof...(Args);
     constexpr auto args_total_size = (0 + ... + sizeof(Args));
@@ -113,14 +110,14 @@ inline R rtti_function::execute_native(scriptable* context, Args&&... args)
     std::array<std::uint8_t, args_total_size + 1> params_stack{};
     std::array<std::uint8_t, 9 * args_count> code_stack{};
 
-    stack_frame frame(this, context, locals_stack.get(), params_stack.data(), code_stack.data());
-    stack_frame_writer writer(frame);
+    CStackFrame frame(this, context, locals_stack.get(), params_stack.data(), code_stack.data());
+    CStackFrameWriter writer(frame);
 
     std::size_t index = 0;
     (writer.write_value(params.entries[index++], std::forward<Args>(args)), ...);
     writer.end_params();
 
-    detail::reloc_func<bool, rtti_function*, scriptable*, stack_frame&, R*> func(
+    detail::RelocFunc<bool, CFunction*, IScriptable*, CStackFrame&, R*> func(
         detail::addresses::rtti_function::execute_native);
 
     if constexpr (std::is_same_v<R, void>)
@@ -137,16 +134,16 @@ inline R rtti_function::execute_native(scriptable* context, Args&&... args)
 }
 
 template<typename R, typename... Args>
-inline R rtti_function::execute_scripted(scriptable* context, Args&&... args)
+inline R CFunction::execute_scripted(IScriptable* context, Args&&... args)
 {
     constexpr auto args_total_size = (0 + ... + sizeof(Args));
     std::array<std::uint8_t, args_total_size + 1> params_stack{};
 
-    stack_frame_param_writer writer(params_stack.data());
+    CStackFrameParamWriter writer(params_stack.data());
     (writer.write(std::forward<Args>(args)), ...);
     writer.write_end();
 
-    detail::reloc_func<bool, rtti_function*, scriptable*, std::uint8_t*, R*> func(
+    detail::RelocFunc<bool, CFunction*, IScriptable*, std::uint8_t*, R*> func(
         detail::addresses::rtti_function::execute_scripted);
 
     if constexpr (std::is_same_v<R, void>)

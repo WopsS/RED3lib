@@ -4,11 +4,7 @@
 #include <Windows.h>
 
 #include <red3lib/detail/relocation.hpp>
-#include <red3lib/rtti_class.hpp>
-#include <red3lib/rtti_function.hpp>
-#include <red3lib/scriptable.hpp>
-#include <red3lib/stack_frame.hpp>
-#include <red3lib/stack_frame_writer.hpp>
+#include <red3lib/RED3Lib.hpp>
 
 #define RED3LIB_C_EXPORT extern "C" __declspec(dllexport)
 #define RED3LIB_CALL __fastcall
@@ -38,10 +34,10 @@ RED3LIB_C_EXPORT bool RED3LIB_CALL Main(HMODULE aHandle, EMainReason aReason)
 
 RED3LIB_C_EXPORT void RED3LIB_CALL Update()
 {
-    red3lib::detail::reloc_ptr<red3lib::rtti_class> game_cls(0x145549010 - 0x140000000);
+    red3lib::detail::RelocPtr<red3lib::CClass> game_cls(0x145549010 - 0x140000000);
     if (game_cls != nullptr)
     {
-        red3lib::detail::reloc_ptr<red3lib::scriptable> game_context(0x1452BB290 - 0x140000000);
+        red3lib::detail::RelocPtr<red3lib::IScriptable> game_context(0x1452BB290 - 0x140000000);
 
         {
             auto func = game_cls->find_function(L"GetEngineTimeAsSeconds");

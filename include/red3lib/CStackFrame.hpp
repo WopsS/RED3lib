@@ -2,30 +2,30 @@
 
 #include <cstdint>
 
-#include <red3lib/detail/asserts.hpp>
-#include <red3lib/detail/common.hpp>
+#include <red3lib/detail/Asserts.hpp>
+#include <red3lib/detail/Common.hpp>
 
 namespace red3lib
 {
-struct rtti_function;
-struct scriptable;
+struct CFunction;
+struct IScriptable;
 
-struct [[nodiscard]] stack_frame
+struct [[nodiscard]] CStackFrame
 {
-    stack_frame(rtti_function* owner, scriptable* context, std::uint8_t* locals, std::uint8_t* params,
+    CStackFrame(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
                 std::uint8_t* code) noexcept;
 
-    constexpr stack_frame(stack_frame&&) noexcept = default;
-    constexpr stack_frame& operator=(stack_frame&&) noexcept = default;
+    constexpr CStackFrame(CStackFrame&&) noexcept = default;
+    constexpr CStackFrame& operator=(CStackFrame&&) noexcept = default;
 
-    constexpr ~stack_frame() noexcept = default;
+    constexpr ~CStackFrame() noexcept = default;
 
-    RED3LIB_NON_COPYABLE(stack_frame);
+    RED3LIB_NON_COPYABLE(CStackFrame);
 
-    scriptable* context;       // 00 - TODO: Increase reference counter when this class is constructed and decrease it!
+    IScriptable* context;      // 00 - TODO: Increase reference counter when this class is constructed and decrease it!
     std::int64_t unk8;         // 08 - Seems to be the reference counter of the context. NOTE: This NEEDS to be set!
-    stack_frame* parent;       // 10
-    rtti_function* owner;      // 18
+    CStackFrame* parent;       // 10
+    CFunction* owner;          // 18
     std::uint8_t* locals;      // 20
     std::uint8_t* params;      // 28
     std::uint8_t* code;        // 30
@@ -60,10 +60,9 @@ struct [[nodiscard]] stack_frame
     std::int64_t unk110;       // 110
     std::int64_t unk118;       // 118
 };
-RED3LIB_ASSERT_SIZE(stack_frame, 0x120);
-RED3LIB_ASSERT_OFFSET(stack_frame, locals, 0x20);
-RED3LIB_ASSERT_OFFSET(stack_frame, params, 0x28);
-RED3LIB_ASSERT_OFFSET(stack_frame, code, 0x30);
-RED3LIB_ASSERT_OFFSET(stack_frame, unk38, 0x38);
-
+RED3LIB_ASSERT_SIZE(CStackFrame, 0x120);
+RED3LIB_ASSERT_OFFSET(CStackFrame, locals, 0x20);
+RED3LIB_ASSERT_OFFSET(CStackFrame, params, 0x28);
+RED3LIB_ASSERT_OFFSET(CStackFrame, code, 0x30);
+RED3LIB_ASSERT_OFFSET(CStackFrame, unk38, 0x38);
 } // namespace red3lib

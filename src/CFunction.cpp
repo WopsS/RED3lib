@@ -1,6 +1,6 @@
-#include <red3lib/rtti_function.hpp>
+#include <red3lib/CFunction.hpp>
 
-std::size_t red3lib::rtti_function::calculate_locals_stack_size() const
+std::size_t red3lib::CFunction::calculate_locals_stack_size() const
 {
     static constexpr std::uint32_t min_stack_size = 0x10;
 

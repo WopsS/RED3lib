@@ -1,6 +1,6 @@
-#include <red3lib/stack_frame.hpp>
+#include <red3lib/CStackFrame.hpp>
 
-red3lib::stack_frame::stack_frame(rtti_function* owner, scriptable* context, std::uint8_t* locals, std::uint8_t* params,
+red3lib::CStackFrame::CStackFrame(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
                                   std::uint8_t* code) noexcept
     : context(context)
     , unk8(0)

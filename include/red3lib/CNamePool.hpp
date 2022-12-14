@@ -3,8 +3,8 @@
 #include <cstdint>
 #include <string_view>
 
-#include <red3lib/detail/common.hpp>
-#include <red3lib/name_hash.hpp>
+#include <red3lib/detail/Common.hpp>
+#include <red3lib/CNameHash.hpp>
 
 namespace red3lib
 {
@@ -15,7 +15,7 @@ public:
     RED3LIB_NON_COPYABLE_AND_NON_MOVABLE(name_pool);
 
     [[nodiscard]] static std::uint32_t add(const wchar_t* name);
-    [[nodiscard]] static std::wstring_view to_wide_string(const name_hash& which);
+    [[nodiscard]] static std::wstring_view to_wide_string(const CNameHash& hash);
 
 private:
     [[nodiscard]] static name_pool* instance();
