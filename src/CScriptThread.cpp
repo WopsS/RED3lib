@@ -1,6 +1,6 @@
-#include <red3lib/CStackFrame.hpp>
+#include <red3lib/CScriptThread.hpp>
 
-red3lib::CStackFrame::CStackFrame(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
+red3lib::CScriptThread::CScriptThread(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
                                   std::uint8_t* code) noexcept
     : context(context)
     , unk8(0)

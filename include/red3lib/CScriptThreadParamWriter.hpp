@@ -4,11 +4,11 @@
 
 namespace red3lib
 {
-class [[nodiscard]] CStackFrameParamWriter
+class [[nodiscard]] CScriptThreadParamWriter
 {
 public:
-    CStackFrameParamWriter(std::uint8_t* ptr) noexcept;
-    ~CStackFrameParamWriter() noexcept = default;
+    CScriptThreadParamWriter(std::uint8_t* ptr) noexcept;
+    ~CScriptThreadParamWriter() noexcept = default;
 
     template<typename T>
     void write(T value);
@@ -19,7 +19,7 @@ private:
 };
 
 template<typename T>
-inline void CStackFrameParamWriter::write(T value)
+inline void CScriptThreadParamWriter::write(T value)
 {
     *reinterpret_cast<T*>(m_cursor) = value;
     m_cursor += sizeof(T);
