@@ -5,7 +5,7 @@
 #include <memory>
 #include <type_traits>
 
-#include <red3lib/CNameHash.hpp>
+#include <red3lib/CName.hpp>
 #include <red3lib/CStackFrame.hpp>
 #include <red3lib/CStackFrameWriter.hpp>
 #include <red3lib/IRTTIBaseObject.hpp>
@@ -44,7 +44,7 @@ struct CFunction : IRTTIBaseObject
     R execute(IScriptable* context, Args&&... args);
 
     CClass* owner;                    // 08
-    red3lib::CNameHash name;          // 10
+    red3lib::CName name;          // 10
     std::int32_t flags;               // 14
     std::int64_t return_type;         // 18
     TDynArray<CProperty*> params;     // 20
