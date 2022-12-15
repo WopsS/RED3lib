@@ -16,6 +16,7 @@ public:
 
     [[nodiscard]] static std::uint32_t AddDynamicPoolName(const wchar_t* name);
     [[nodiscard]] static std::wstring_view FindText(const CName& hash);
+    [[nodiscard]] static std::string_view FindTextAnsi(const CName& hash);
 
 private:
     [[nodiscard]] static CNamePool* Instance();

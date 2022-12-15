@@ -25,6 +25,8 @@ public:
     constexpr ~CName() noexcept = default;
 
     [[nodiscard]] std::wstring_view AsChar() const;
+    [[nodiscard]] std::string_view AsAnsiChar() const;
+    [[nodiscard]] bool IsNone() const;
 
 private:
     std::uint32_t m_index; // 00

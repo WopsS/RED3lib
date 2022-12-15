@@ -17,6 +17,12 @@ std::wstring_view red3lib::CNamePool::FindText(const CName& hash)
     return func(hash);
 }
 
+std::string_view red3lib::CNamePool::FindTextAnsi(const CName& hash)
+{
+    detail::RelocFunc<char*, const CName&> func(detail::addresses::CNamePool::FindTextAnsi);
+    return func(hash);
+}
+
 red3lib::CNamePool* red3lib::CNamePool::Instance()
 {
     detail::RelocFunc<red3lib::CNamePool*> func(detail::addresses::CNamePool::s_instance);
