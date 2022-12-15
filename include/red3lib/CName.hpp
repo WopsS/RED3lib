@@ -11,7 +11,7 @@ using CNameHash = uint32_t;
 class [[nodiscard]] CName
 {
 public:
-    constexpr CName() noexcept;
+    CName() = default;
     CName(const wchar_t* text);
 
     // TODO: Implement other constructors.
@@ -29,6 +29,6 @@ public:
     [[nodiscard]] bool IsNone() const;
 
 private:
-    std::uint32_t m_index; // 00
+    std::uint32_t m_index{0}; // 00
 };
 } // namespace red3lib

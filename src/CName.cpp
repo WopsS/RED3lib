@@ -2,11 +2,6 @@
 
 #include <red3lib/CNamePool.hpp>
 
-constexpr red3lib::CName::CName() noexcept
-    : m_index(0)
-{
-}
-
 red3lib::CName::CName(const wchar_t* text)
 {
     if (wcscmp(text, L"None") == 0)
