@@ -5,9 +5,9 @@
 #include <memory>
 #include <type_traits>
 
-#include <red3lib/CNameHash.hpp>
-#include <red3lib/CStackFrame.hpp>
-#include <red3lib/CStackFrameWriter.hpp>
+#include <red3lib/CName.hpp>
+#include <red3lib/CScriptThread.hpp>
+#include <red3lib/CScriptThreadWriter.hpp>
 #include <red3lib/IRTTIBaseObject.hpp>
 #include <red3lib/containers/TDynArray.hpp>
 #include <red3lib/detail/Addresses.hpp>
@@ -44,7 +44,7 @@ struct CFunction : IRTTIBaseObject
     R execute(IScriptable* context, Args&&... args);
 
     CClass* owner;                    // 08
-    red3lib::CNameHash name;          // 10
+    red3lib::CName name;          // 10
     std::int32_t flags;               // 14
     std::int64_t return_type;         // 18
     TDynArray<CProperty*> params;     // 20
@@ -110,14 +110,14 @@ inline R CFunction::execute_native(IScriptable* context, Args&&... args)
     std::array<std::uint8_t, args_total_size + 1> params_stack{};
     std::array<std::uint8_t, 9 * args_count> code_stack{};
 
-    CStackFrame frame(this, context, locals_stack.get(), params_stack.data(), code_stack.data());
-    CStackFrameWriter writer(frame);
+    CScriptThread frame(this, context, locals_stack.get(), params_stack.data(), code_stack.data());
+    CScriptThreadWriter writer(frame);
 
     std::size_t index = 0;
     (writer.write_value(params.entries[index++], std::forward<Args>(args)), ...);
     writer.end_params();
 
-    detail::RelocFunc<bool, CFunction*, IScriptable*, CStackFrame&, R*> func(
+    detail::RelocFunc<bool, CFunction*, IScriptable*, CScriptThread&, R*> func(
         detail::addresses::CFunction::execute_native);
 
     if constexpr (std::is_same_v<R, void>)
@@ -139,7 +139,7 @@ inline R CFunction::execute_scripted(IScriptable* context, Args&&... args)
     constexpr auto args_total_size = (0 + ... + sizeof(Args));
     std::array<std::uint8_t, args_total_size + 1> params_stack{};
 
-    CStackFrameParamWriter writer(params_stack.data());
+    CScriptThreadParamWriter writer(params_stack.data());
     (writer.write(std::forward<Args>(args)), ...);
     writer.write_end();
 

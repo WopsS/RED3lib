@@ -6,11 +6,11 @@ namespace red3lib
 {
 struct CProperty;
 
-class [[nodiscard]] CStackFrameCodeWriter
+class [[nodiscard]] CScriptThreadCodeWriter
 {
 public:
-    CStackFrameCodeWriter(std::uint8_t* ptr) noexcept;
-    ~CStackFrameCodeWriter() noexcept = default;
+    CScriptThreadCodeWriter(std::uint8_t* ptr) noexcept;
+    ~CScriptThreadCodeWriter() noexcept = default;
 
     void write(CProperty* property);
 

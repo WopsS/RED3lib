@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-#include <red3lib/CNameHash.hpp>
+#include <red3lib/CName.hpp>
 #include <red3lib/IRTTIType.hpp>
 #include <red3lib/containers/TDynArray.hpp>
 #include <red3lib/detail/Asserts.hpp>
@@ -14,14 +14,14 @@ struct CProperty;
 
 struct CClass : IRTTIType
 {
-    CFunction* find_function(red3lib::CNameHash func_name) const;
+    CFunction* FindFunction(red3lib::CName func_name) const;
 
     std::int32_t unk8;                // 08
     CClass* base;                     // 10
     std::int64_t unk18;               // 18
     std::int64_t unk20;               // 20
     std::int32_t unk28;               // 28
-    red3lib::CNameHash name;          // 2C
+    red3lib::CName name;          // 2C
     TDynArray<CProperty*> properties; // 30
     std::int32_t unk3C;               // 3C
     std::int32_t unk40;               // 40

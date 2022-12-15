@@ -10,21 +10,21 @@ namespace red3lib
 struct CFunction;
 struct IScriptable;
 
-struct [[nodiscard]] CStackFrame
+struct [[nodiscard]] CScriptThread
 {
-    CStackFrame(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
+    CScriptThread(CFunction* owner, IScriptable* context, std::uint8_t* locals, std::uint8_t* params,
                 std::uint8_t* code) noexcept;
 
-    constexpr CStackFrame(CStackFrame&&) noexcept = default;
-    constexpr CStackFrame& operator=(CStackFrame&&) noexcept = default;
+    constexpr CScriptThread(CScriptThread&&) noexcept = default;
+    constexpr CScriptThread& operator=(CScriptThread&&) noexcept = default;
 
-    constexpr ~CStackFrame() noexcept = default;
+    constexpr ~CScriptThread() noexcept = default;
 
-    RED3LIB_NON_COPYABLE(CStackFrame);
+    RED3LIB_NON_COPYABLE(CScriptThread);
 
     IScriptable* context;      // 00 - TODO: Increase reference counter when this class is constructed and decrease it!
     std::int64_t unk8;         // 08 - Seems to be the reference counter of the context. NOTE: This NEEDS to be set!
-    CStackFrame* parent;       // 10
+    CScriptThread* parent;       // 10
     CFunction* owner;          // 18
     std::uint8_t* locals;      // 20
     std::uint8_t* params;      // 28
@@ -60,9 +60,9 @@ struct [[nodiscard]] CStackFrame
     std::int64_t unk110;       // 110
     std::int64_t unk118;       // 118
 };
-RED3LIB_ASSERT_SIZE(CStackFrame, 0x120);
-RED3LIB_ASSERT_OFFSET(CStackFrame, locals, 0x20);
-RED3LIB_ASSERT_OFFSET(CStackFrame, params, 0x28);
-RED3LIB_ASSERT_OFFSET(CStackFrame, code, 0x30);
-RED3LIB_ASSERT_OFFSET(CStackFrame, unk38, 0x38);
+RED3LIB_ASSERT_SIZE(CScriptThread, 0x120);
+RED3LIB_ASSERT_OFFSET(CScriptThread, locals, 0x20);
+RED3LIB_ASSERT_OFFSET(CScriptThread, params, 0x28);
+RED3LIB_ASSERT_OFFSET(CScriptThread, code, 0x30);
+RED3LIB_ASSERT_OFFSET(CScriptThread, unk38, 0x38);
 } // namespace red3lib
