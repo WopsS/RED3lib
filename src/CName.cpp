@@ -1,6 +1,6 @@
 #include <red3lib/CName.hpp>
 
-#include <red3lib/CNamePool.hpp>
+#include <red3lib/CNamesPool.hpp>
 
 red3lib::CName::CName(const wchar_t* text)
 {
@@ -9,17 +9,17 @@ red3lib::CName::CName(const wchar_t* text)
         m_index = 0;
         return;
     }
-    m_index = CNamePool::AddDynamicPoolName(text);
+    m_index = CNamesPool::AddDynamicPoolName(text);
 }
 
 std::wstring_view red3lib::CName::AsChar() const
 {
-    return CNamePool::FindText(*this);
+    return CNamesPool::FindText(*this);
 }
 
 std::string_view red3lib::CName::AsAnsiChar() const
 {
-    return CNamePool::FindTextAnsi(*this);
+    return CNamesPool::FindTextAnsi(*this);
 }
 
 bool red3lib::CName::IsNone() const
